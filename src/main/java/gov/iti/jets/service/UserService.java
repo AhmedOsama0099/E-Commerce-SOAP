@@ -16,36 +16,15 @@ import java.util.List;
 @WebService
 public class UserService {
     UserRepo userRepo = UserRepoImpl.getInstance();
-    public List<UserModel> getAllUsers(int pageNumber, int recordsPerpage) {
+    public List<UserModel> getAllUsers(int pageNumber, int recordsPerPage) {
         List<UserModel> userModels = new ArrayList<>();
         List<User> users = new ArrayList<>();
-        users = UserRepoImpl.getInstance().getSinglePageContent(pageNumber,recordsPerpage );
+        users = UserRepoImpl.getInstance().getSinglePageContent(pageNumber,recordsPerPage );
         userModels = UserMapper.INSTANCE.toUserModelListFromUserList(users);
         return userModels;
     }
 
-     
-    public List<UserModel> getCertainUsers(int pageNumber, int recordsPerPage, String role) {
-        List<UserModel> userModels = new ArrayList<>();
-        if(!role.isEmpty()||role==null){
-            if (role.equalsIgnoreCase("all")){
-                List<User> users = userRepo.getSinglePageContent(pageNumber,recordsPerPage);
-                userModels = UserMapper.INSTANCE.toUserModelListFromUserList(users);
-            }else {
-                List<Role> roles = new ArrayList<>();
-                try{
-                    roles.add(Role.valueOf((role).toUpperCase()));
-                }catch (IllegalArgumentException e){
-                    throw new IllegalInputException("wrongly entered role");
-                }
-                List<User> users = userRepo.getFilteredUsers(pageNumber,recordsPerPage,roles);
-                userModels = UserMapper.INSTANCE.toUserModelListFromUserList(users);
-            }
-        }else throw new IllegalInputException("role is empty!!");
-      return userModels;
-    }
 
-     
     public UserModel getUserById(int id) {
         if (id <= 0) {
             throw new IllegalInputException("userId entry is not accepted");
@@ -58,7 +37,7 @@ public class UserService {
         return userModel;
     }
 
-     
+
     public void insertUser(UserModel userModel) {
         User user = UserMapper.INSTANCE.fromUserModelToUser(userModel);
         user.setRole(Role.CUSTOMER);
@@ -66,7 +45,7 @@ public class UserService {
         UserRepoImpl.getInstance().save(user);
     }
 
-     
+
     public void updateUser(UserModel userModel) {
         if (userModel.getId() < 0) {
             throw new MyNotFoundException("user not found");
@@ -81,8 +60,8 @@ public class UserService {
         UserRepoImpl.getInstance().update(user);
     }
 
-     
-    public void deleteUser(int id) {
+
+    public boolean deleteUser(int id) {
         if (id < 0) {
             throw new MyNotFoundException("user not found");
         }
@@ -91,5 +70,6 @@ public class UserService {
             throw new MyNotFoundException("user not found");
         }
         UserRepoImpl.getInstance().delete(user);
+        return true;
     }
 }
