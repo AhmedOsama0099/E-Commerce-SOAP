@@ -1,8 +1,8 @@
-# JAX-RS REST E-Commerce Web Service
-### An-E-Commerce-RESTful-built-using-JAX-RS.
+# JAX-WS SOAP E-Commerce Web Service
+### An-E-Commerce-SOAP-built-using-JAX-WS.
 
 ## 📃 Documentation
-
+[SOAP-UI messages](https://github.com/AhmedOsama0099/E-Commerce-SOAP/blob/master/E-Commerce-soapui-project-v2.xml)
 ## 📦 Features
 * Content negotiation (support for both XML payloads and responses)
 * SOAP 1.1
