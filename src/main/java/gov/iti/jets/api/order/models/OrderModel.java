@@ -16,7 +16,6 @@ public class OrderModel implements Serializable {
 
     private int id;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<LineItemModel> lineItems;
 
     private UserModel maker;
