@@ -1,0 +1,21 @@
+@host =http://localhost:9595/jersi/api
+
+GET {{host}}/users?fileds=id,firstName HTTP/1.1
+
+###
+GET {{host}}/users HTTP/1.1
+
+###
+POST {{host}}/users HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "osama@gmail.com",
+    "firstName": "a",
+    "id": 1,
+    "lastName": "B"
+}
+###
+GET {{host}}/users/0 HTTP/1.1
+
+###
