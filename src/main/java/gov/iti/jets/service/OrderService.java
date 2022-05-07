@@ -2,6 +2,7 @@ package gov.iti.jets.service;
 
 import gov.iti.jets.api.exceptions.IllegalInputException;
 import gov.iti.jets.api.exceptions.MyNotFoundException;
+import gov.iti.jets.api.order.mappers.OrderMapper;
 import gov.iti.jets.api.order.models.OrderModel;
 import gov.iti.jets.api.order.models.CartItemModel;
 import gov.iti.jets.persistance.entity.LineItem;
@@ -43,15 +44,15 @@ public class OrderService {
         User user = userRepo.findById(id);
         if (user == null) throw new MyNotFoundException("No users found with this Id");
         List<Order> orders = orderRepository.findUserOrders(id);
-//        List<LineItem> lineItems = orders.stream().flatMap(order -> order.getLineItems().stream()).collect(Collectors.toList());
-        List<List<LineItem>> lineItemsLists = orders.stream().map(Order::getLineItems).collect(Collectors.toList());
-        return lineItemsLists.stream().map(oneLineItemList -> { return new OrderModel(id,user.getFirstName(),oneLineItemList);}).collect(Collectors.toList());
+        List<OrderModel>orderModels= OrderMapper.INSTANCE.fromOrdersToOrderModels(orders);
+        return orderModels;
     }
 
      
     public List<OrderModel> getAllOrders() {
         List<Order>orders = orderRepository.findAll();
-        List<OrderModel> orderModels = orders.stream().map(order -> new OrderModel(order.getMaker().getId(),order.getMaker().getFirstName(),order.getLineItems())).collect(Collectors.toList());
+
+        List<OrderModel> orderModels = OrderMapper.INSTANCE.fromOrdersToOrderModels(orders);
         return orderModels;
     }
 

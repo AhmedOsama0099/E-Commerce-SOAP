@@ -1,50 +1,26 @@
 package gov.iti.jets.api.order.models;
 
+import gov.iti.jets.api.user.models.UserModel;
 import gov.iti.jets.persistance.entity.LineItem;
+import gov.iti.jets.persistance.entity.User;
+import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
 @XmlRootElement
+@Getter @Setter
 public class OrderModel implements Serializable {
-    private int userId;
-    private String userName;
-    List<LineItem> lineItemList;
 
-    public OrderModel() {
-    }
+    private int id;
 
-    public OrderModel(int userId, List<LineItem> lineItemList) {
-        this.userId = userId;
-        this.lineItemList = lineItemList;
-    }
-    public OrderModel(int userId,String userName, List<LineItem> lineItemList) {
-        this.userName = userName;
-        this.userId = userId;
-        this.lineItemList = lineItemList;
-    }
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private List<LineItemModel> lineItems;
 
-    public int getUserId() {
-        return userId;
-    }
+    private UserModel maker;
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
-    public String getUserName() {
-        return userName;
-    }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public List<LineItem> getLineItemList() {
-        return lineItemList;
-    }
-
-    public void setLineItemList(List<LineItem> lineItemList) {
-        this.lineItemList = lineItemList;
-    }
 }
